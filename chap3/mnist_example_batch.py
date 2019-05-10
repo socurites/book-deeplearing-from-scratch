@@ -1,38 +1,10 @@
 import sys, os
 sys.path.append(os.pardir)
 from dataset.mnist import load_mnist
-
-(x_train, t_train), (x_test, t_test) = load_mnist(flatten=True, normalize=False)
-SIZE_IMG = 28
-
-print(x_train.shape)
-print(t_train.shape)
-print(x_test.shape)
-print(t_test.shape)
-
-
-# Plotting
 import numpy as np
-from PIL import Image
 
 
-def img_show(img):
-    pil_img = Image.fromarray(np.uint8(img))
-    pil_img.show()
-
-
-img = x_train[0]
-label = t_train[0]
-
-print(label)
-print(img.shape)
-img = img.reshape(SIZE_IMG, SIZE_IMG)
-print(img.shape)
-
-img_show(img)
-
-
-"""Neural Network: Feed Forward
+"""Neural Network: Feed Forward with Batch
 """
 
 
@@ -70,13 +42,13 @@ def predict(network, x):
 x, t = get_data()
 network = init_network()
 
+batch_size = 100
 accuracy_cnt = 0
-for i in range(len(x)):
-    y = predict(network, x)
-    p = np.argmax(y)
+for i in range(0, len(x), batch_size):
+    y_batch = predict(network, x[i:i + batch_size])
+    p = np.argmax(y_batch, axis=1)
 
-    if p == t[i]:
-        accuracy_cnt += 1
+    accuracy_cnt += np.sum(p == t[i:i + batch_size])
 
     if i % 100 == 0:
         print(i)
