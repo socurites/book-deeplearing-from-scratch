@@ -24,6 +24,7 @@ price = mul_tax_layer.forward(apple_orange_price, tax)
 print(price)
 
 
+
 '''Backward
 '''
 dprice = 1
