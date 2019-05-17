@@ -19,4 +19,7 @@ def cross_entropy(y, t):
         y = y.reshape(1, y.size)
 
     batch_size = y.shape[0]
+
+    print(batch_size)
+
     return -np.sum(t * np.log(y)) / batch_size
