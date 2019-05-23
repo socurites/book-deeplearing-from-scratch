@@ -1,12 +1,12 @@
 from chap3.out_fuction import softmax
 from  chap4.loss_function import cross_entropy
-
+import numpy as np
 
 class SoftmaxWithLoss:
     def __init__(self):
-        self.loss = None
-        self.y = None
-        self.t = None
+        self.loss = None  # 손실함수
+        self.y = None  # softmax의 출력
+        self.t = None  # 정답 레이블(원-핫 인코딩 형태)
 
     def forward(self, x, t):
         self.t = t
@@ -17,6 +17,11 @@ class SoftmaxWithLoss:
 
     def backward(self, dout=1):
         batch_size = self.t.shape[0]
-        dx = (self.y - self.t) / batch_size
+        if self.t.size == self.y.size:  # 정답 레이블이 원-핫 인코딩 형태일 때
+            dx = (self.y - self.t) / batch_size
+        else:
+            dx = self.y.copy()
+            dx[np.arange(batch_size), self.t] -= 1
+            dx = dx / batch_size
 
         return dx

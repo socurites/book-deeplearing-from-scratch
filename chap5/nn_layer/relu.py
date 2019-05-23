@@ -3,7 +3,7 @@ class Relu:
         self.mask = None
 
     def forward(self, x):
-        self.mask = (x < 0)
+        self.mask = (x <= 0)
         out = x.copy()
         out[self.mask] = 0
 
@@ -14,4 +14,3 @@ class Relu:
         dx = dout
 
         return dx
-
