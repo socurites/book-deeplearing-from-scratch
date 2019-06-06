@@ -26,7 +26,7 @@ class Momentum:
             params[key] += self.v[key]
 
 
-class Adagrad:
+class AdaGrad:
     def __init__(self, lr=0.01):
         self.lr = lr
         self.h = None
@@ -35,7 +35,7 @@ class Adagrad:
         if self.h is None:
             self.h = {}
             for key, val in params.items():
-                self.v[key] = np.zeros_like(val)
+                self.h[key] = np.zeros_like(val)
 
         for key in params.keys():
             self.h[key] += grads[key] * grads[key]
